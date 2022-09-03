@@ -1,58 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
 
-function App() {
+import { BackTop, Layout } from 'antd';
+import React, { useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import PageHeader from './components/common/PageHeader';
+import PageSubHeader from './components/common/PageSubHeader';
+import { InlineStylesModel } from './models/InlineStylesModel';
+import { MainRoutes } from './routes/MainRoutes';
+
+const { Header, Content } = Layout;
+const styles: InlineStylesModel = {
+  layout: {
+    height: '100vh'
+  },
+  header: {
+    lineHeight: 1,
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  content: {
+    padding: window.innerWidth < 2000 ? '20px 58px' : window.innerWidth > 2001 && window.innerWidth < 2600 ? '20px' : '20px 18px',
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: 1920,
+    alignSelf: 'center',
+    width: '100%'
+  },
+  somethingWrong: {
+    textAlign: 'center',
+    height: '100vh'
+  }
+};
+
+export const App = (): JSX.Element => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <React.StrictMode>
+      <Layout style={styles.layout}>
+        <BackTop />
+        <Header style={styles.header}>
+          <PageHeader />
+        </Header>
+        {pathname !== '/about' && pathname !== '/profile' ? <PageSubHeader /> : null}
+        <Content style={styles.content}>
+          <MainRoutes  />
+        </Content>
+      </Layout>
+    </React.StrictMode>
   );
-}
+};
 
-export default App;
